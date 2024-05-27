@@ -1,56 +1,62 @@
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class SJF {
+
+public class HRRN {
     public void run(List<Process> jobList, List<Result> resultList) {
         int currentTime = 0;
         int totalWaitingTime = 0;
-        int totalTurnaroundTime = 0;
         int completedProcesses = 0;
+        int totalTurnaroundTime = 0;
 
         while (completedProcesses < jobList.size()) {
-            // 현재 시간 이전에 도착한 프로세스 중에서 완료되지 않은 프로세스를 선택
-            Process shortestJob = null;
-            for (Process process : jobList) {
-                if (!process.isCompleted() && process.getArriveTime() <= currentTime) {
-                    if (shortestJob == null || process.getBurstTime() < shortestJob.getBurstTime()) {
-                        shortestJob = process;
+            // 현재 시간까지 도착한 프로세스 중에서 응답 비율이 가장 높은 프로세스 선택
+            Process nextProcess = null;
+            double highestResponseRatio = -1;
+
+            for (Process p : jobList) {
+                if (p.getArriveTime() <= currentTime && !p.isCompleted()) {
+                    int waitingTime = currentTime - p.getArriveTime();
+                    double responseRatio = (double) (waitingTime + p.getBurstTime()) / p.getBurstTime();
+
+                    if (responseRatio > highestResponseRatio) {
+                        highestResponseRatio = responseRatio;
+                        nextProcess = p;
                     }
                 }
             }
 
-            if (shortestJob == null) {
+            if (nextProcess == null) {
+                // 도착한 프로세스가 없는 경우, 현재 시간을 증가시킴
                 currentTime++;
                 continue;
             }
 
-            // 해당 프로세스를 실행
-            int startTime = currentTime;
-            int completionTime = startTime + shortestJob.getBurstTime();
-            int turnaroundTime = completionTime - shortestJob.getArriveTime();
-            int waitingTime = startTime - shortestJob.getArriveTime();
-            int responseTime = waitingTime;  // 비선점형 SJF에서는 waiting time이 response time과 동일
-
+            // 선택된 프로세스를 처리
+            int arriveTime = nextProcess.getArriveTime();
+            int burstTime = nextProcess.getBurstTime();
+            int waitingTime = currentTime - arriveTime;
             totalWaitingTime += waitingTime;
+            currentTime += burstTime;
+            int turnaroundTime = waitingTime + burstTime;
             totalTurnaroundTime += turnaroundTime;
+            int responseTime = waitingTime;
 
-            // 결과 리스트에 추가
-            resultList.add(new Result(shortestJob.getProcessId(), shortestJob.getBurstTime(), waitingTime, turnaroundTime, responseTime));
-
-            // 프로세스 완료 표시
-            shortestJob.setCompleted(true);
+            resultList.add(new Result(nextProcess.getProcessId(), burstTime, waitingTime, turnaroundTime, responseTime));
+            nextProcess.setCompleted(true);
             completedProcesses++;
-            currentTime = completionTime;
         }
 
         double averageWaitingTime = (double) totalWaitingTime / jobList.size();
         double averageTurnaroundTime = (double) totalTurnaroundTime / jobList.size();
+
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, resultList);
     }
 
     private void printResults(double averageWaitingTime, int cpuExecutionTime, double averageTurnaroundTime, List<Result> resultList) {
         System.out.println("=================================================================");
-        System.out.println("SJF 결과");
+        System.out.println("HRRN 결과");
         System.out.println("평균 대기 시간 : " + averageWaitingTime);
         System.out.println("평균 Turnaround Time : " + averageTurnaroundTime);
         System.out.println("CPU 실행 시간 : " + cpuExecutionTime);
@@ -67,3 +73,4 @@ public class SJF {
         System.out.println("=================================================================");
     }
 }
+
