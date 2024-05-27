@@ -16,37 +16,15 @@ public class Result {
     public int getProcessID() {
         return processID;
     }
-
-
-    public int getBurstTime() {
-        return burstTime;
-    }
-
-    public void setBurstTime(int burstTime) {
-        this.burstTime = burstTime;
-    }
-
     public int getWaitingTime() {
         return waitingTime;
-    }
-
-    public void setWaitingTime(int waitingTime) {
-        this.waitingTime = waitingTime;
     }
 
     public int getTurnaroundTime() {
         return turnaroundTime;
     }
 
-    public void setTurnaroundTime(int turnaroundTime) {
-        this.turnaroundTime = turnaroundTime;
-    }
-
     public int getResponseTime() {
         return responseTime;
-    }
-
-    public void setResponseTime(int responseTime) {
-        this.responseTime = responseTime;
     }
 }

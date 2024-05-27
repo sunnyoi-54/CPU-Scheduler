@@ -2,16 +2,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        /*List<Process> jobList = Arrays.asList(
-                new Process(1, 7, 0),
-                new Process(2, 4, 2),
-                new Process(3, 1, 4),
-                new Process(4, 4, 5)
-        );sjf*/
 
         List<Process> FCFSList = Arrays.asList( //동시에 도착
                 new Process(1, 24, 2),

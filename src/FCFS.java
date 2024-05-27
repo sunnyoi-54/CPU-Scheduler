@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class FCFS {
     private List<Process> jobList; // 작업 큐
