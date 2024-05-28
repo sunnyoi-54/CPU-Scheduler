@@ -9,7 +9,7 @@ public class FCFS {
         this.resultList = new ArrayList<>();
     }
 
-    public void run(List<Process> jobList, List<Result> resultList){
+    public List<Result> run(List<Process> jobList, List<Result> resultList){
         this.jobList = jobList;
         this.resultList = resultList;
 
@@ -41,6 +41,7 @@ public class FCFS {
         double averageTurnaroundTime = (double)totalTurnaroundTime / jobList.size();
 
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, resultList);
+        return resultList;
     }
 
     private void printResults(double averageWaitingTime, int cpuExecutionTime, double averageTurnaroundTime, List<Result> resultList) {

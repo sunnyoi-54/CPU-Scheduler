@@ -3,13 +3,14 @@ public class Process {
     private int burstTime;
     private int arriveTime;
     private boolean completed;
-
+    private int remainingTime;
 
     public Process(int processId, int burstTime, int arriveTime) {
         this.processId = processId;
         this.burstTime = burstTime;
         this.arriveTime = arriveTime;
         this.completed = false;
+        this.remainingTime = burstTime;
     }
 
     public int getBurstTime() {
@@ -31,4 +32,13 @@ public class Process {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int remainingTime) {
+        this.remainingTime = remainingTime;
+    }
+
 }

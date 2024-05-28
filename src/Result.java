@@ -27,4 +27,8 @@ public class Result {
     public int getResponseTime() {
         return responseTime;
     }
+
+    public int getBurstTime() {
+        return burstTime;
+    }
 }
