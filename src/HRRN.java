@@ -9,6 +9,9 @@ public class HRRN {
         int completedProcesses = 0;
         int totalTurnaroundTime = 0;
 
+        // 도착 시간 기준으로 프로세스 리스트 정렬
+        jobList.sort(Comparator.comparingInt(Process::getArriveTime));
+
         while (completedProcesses < jobList.size()) { //프로세스가 남아 있으면
             // 현재 시간까지 도착한 프로세스 중에서 response ratio가 가장 높은 프로세스 선택
             Process selectedProcess = null;
@@ -66,7 +69,6 @@ public class HRRN {
             System.out.println("Process" + result.getProcessID() + "의 waiting time : " + result.getWaitingTime() +", turnaround Time : " + result.getTurnaroundTime() +", response Time : " + result.getResponseTime());
         });
 
-        System.out.println("=================================================================");
     }
 }
 

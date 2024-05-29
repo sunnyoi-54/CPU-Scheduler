@@ -8,6 +8,9 @@ public class SJF {
         int totalTurnaroundTime = 0;
         int completedProcesses = 0;
 
+        // 도착 시간 기준으로 프로세스 리스트 정렬
+        jobList.sort(Comparator.comparingInt(Process::getArriveTime));
+
         while (completedProcesses < jobList.size()) {
             // 현재 시간 이전에 도착한 프로세스 중에서 완료되지 않은 프로세스를 선택
             Process shortestJob = null;
@@ -43,16 +46,17 @@ public class SJF {
             currentTime = completionTime; //프로세스 동작 완료!
         }
 
+
         double averageWaitingTime = (double) totalWaitingTime / jobList.size();
         double averageTurnaroundTime = (double) totalTurnaroundTime / jobList.size();
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, resultList);
     }
 
-    private void printResults(double averageWaitingTime, int cpuExecutionTime, double averageTurnaroundTime, List<Result> resultList) {
+    private static void printResults(double averageWaitingTime, int cpuExecutionTime, double averageResponseTime, List<Result> resultList) {
         System.out.println("=================================================================");
         System.out.println("SJF 결과");
         System.out.println("평균 대기 시간 : " + averageWaitingTime);
-        System.out.println("평균 Turnaround Time : " + averageTurnaroundTime);
+        System.out.println("평균 응답 시간 : " + averageResponseTime);
         System.out.println("CPU 실행 시간 : " + cpuExecutionTime);
 
         resultList.sort(Comparator.comparingInt(Result::getProcessID));
@@ -60,7 +64,5 @@ public class SJF {
         resultList.forEach(result -> {
             System.out.println("Process" + result.getProcessID() + "의 waiting time : " + result.getWaitingTime() +", turnaround Time : " + result.getTurnaroundTime() +", response Time : " + result.getResponseTime());
         });
-
-        System.out.println("=================================================================");
     }
 }

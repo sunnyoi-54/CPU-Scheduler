@@ -48,7 +48,5 @@ public class FCFS {
         resultList.forEach(result -> {
             System.out.println("Process" + result.getProcessID() + "의 waiting time : " + result.getWaitingTime() +", turnaround Time : " + result.getTurnaroundTime() +", response Time : " + result.getResponseTime());
         });
-
-        System.out.println("=================================================================");
     }
 }
