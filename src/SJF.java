@@ -11,24 +11,24 @@ public class SJF {
         while (completedProcesses < jobList.size()) {
             // 현재 시간 이전에 도착한 프로세스 중에서 완료되지 않은 프로세스를 선택
             Process shortestJob = null;
-            for (Process process : jobList) {
-                if (!process.isCompleted() && process.getArriveTime() <= currentTime) {
-                    if (shortestJob == null || process.getBurstTime() < shortestJob.getBurstTime()) {
+            for (Process process : jobList) { //가장 짧은 프로세스 선택
+                if (!process.isCompleted() && process.getArriveTime() <= currentTime) { //완료되지 않았고, 도착 시간이 현재 시간보다 작은 프로세스이면
+                    if (shortestJob == null || process.getBurstTime() < shortestJob.getBurstTime()) { //제일 짧은 프로세스 고르기
                         shortestJob = process;
                     }
                 }
             }
 
-            if (shortestJob == null) {
+            if (shortestJob == null) { //아직 프로세스가 큐에 없음 -> 현재 시간 증가
                 currentTime++;
                 continue;
             }
 
             // 해당 프로세스를 실행
-            int startTime = currentTime;
-            int completionTime = startTime + shortestJob.getBurstTime();
-            int turnaroundTime = completionTime - shortestJob.getArriveTime();
-            int waitingTime = startTime - shortestJob.getArriveTime();
+            int startTime = currentTime; //프로세스 시작 시간
+            int completionTime = startTime + shortestJob.getBurstTime(); //프로세스 완료 시간
+            int turnaroundTime = completionTime - shortestJob.getArriveTime(); //완료 시간 - 도착 시간
+            int waitingTime = startTime - shortestJob.getArriveTime(); //시작 시간 - 도착 시간
             int responseTime = waitingTime;  // 비선점형 SJF에서는 waiting time이 response time과 동일
 
             totalWaitingTime += waitingTime;
@@ -40,7 +40,7 @@ public class SJF {
             // 프로세스 완료 표시
             shortestJob.setCompleted(true);
             completedProcesses++;
-            currentTime = completionTime;
+            currentTime = completionTime; //프로세스 동작 완료!
         }
 
         double averageWaitingTime = (double) totalWaitingTime / jobList.size();

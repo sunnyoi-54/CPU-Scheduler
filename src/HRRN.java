@@ -9,32 +9,32 @@ public class HRRN {
         int completedProcesses = 0;
         int totalTurnaroundTime = 0;
 
-        while (completedProcesses < jobList.size()) {
-            // 현재 시간까지 도착한 프로세스 중에서 응답 비율이 가장 높은 프로세스 선택
-            Process nextProcess = null;
+        while (completedProcesses < jobList.size()) { //프로세스가 남아 있으면
+            // 현재 시간까지 도착한 프로세스 중에서 response ratio가 가장 높은 프로세스 선택
+            Process selectedProcess = null;
             double highestResponseRatio = -1;
 
             for (Process p : jobList) {
                 if (p.getArriveTime() <= currentTime && !p.isCompleted()) {
                     int waitingTime = currentTime - p.getArriveTime();
-                    double responseRatio = (double) (waitingTime + p.getBurstTime()) / p.getBurstTime();
+                    double responseRatio = (double) (waitingTime + p.getBurstTime()) / p.getBurstTime(); //우선순위 설정
 
-                    if (responseRatio > highestResponseRatio) {
+                    if (responseRatio > highestResponseRatio) { //제일 높은 우선순위 프로세스 선택
                         highestResponseRatio = responseRatio;
-                        nextProcess = p;
+                        selectedProcess = p;
                     }
                 }
             }
 
-            if (nextProcess == null) {
+            if (selectedProcess == null) {
                 // 도착한 프로세스가 없는 경우, 현재 시간을 증가시킴
                 currentTime++;
                 continue;
             }
 
             // 선택된 프로세스를 처리
-            int arriveTime = nextProcess.getArriveTime();
-            int burstTime = nextProcess.getBurstTime();
+            int arriveTime = selectedProcess.getArriveTime();
+            int burstTime = selectedProcess.getBurstTime();
             int waitingTime = currentTime - arriveTime;
             totalWaitingTime += waitingTime;
             currentTime += burstTime;
@@ -42,8 +42,8 @@ public class HRRN {
             totalTurnaroundTime += turnaroundTime;
             int responseTime = waitingTime;
 
-            resultList.add(new Result(nextProcess.getProcessId(), burstTime, waitingTime, turnaroundTime, responseTime));
-            nextProcess.setCompleted(true);
+            resultList.add(new Result(selectedProcess.getProcessId(), burstTime, waitingTime, turnaroundTime, responseTime));
+            selectedProcess.setCompleted(true); //완료됨!
             completedProcesses++;
         }
 
