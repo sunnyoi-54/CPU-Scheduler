@@ -4,6 +4,7 @@ public class Process {
     private int arriveTime;
     private boolean completed;
     private int remainingTime;
+    private int responseTime;
 
     public Process(int processId, int burstTime, int arriveTime) {
         this.processId = processId;
@@ -41,4 +42,11 @@ public class Process {
         this.remainingTime = remainingTime;
     }
 
+    public int getResponseTime() {
+        return responseTime;
+    }
+
+    public void setResponseTime(int responseTime) {
+        this.responseTime = responseTime;
+    }
 }

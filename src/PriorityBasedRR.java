@@ -66,10 +66,7 @@ public class PriorityBasedRR { //HRRN + RR
         resultList.sort(Comparator.comparingInt(Result::getProcessID));
 
         resultList.forEach(result -> {
-            System.out.println("----------------------------------------------------------------");
-            System.out.println("Process " + result.getProcessID() + "의 waiting time : " + result.getWaitingTime());
-            System.out.println("Process " + result.getProcessID() + "의 turnaround Time : " + result.getTurnaroundTime());
-            System.out.println("Process " + result.getProcessID() + "의 response Time : " + result.getResponseTime());
+            System.out.println("Process" + result.getProcessID() + "의 waiting time : " + result.getWaitingTime() +", turnaround Time : " + result.getTurnaroundTime() +", response Time : " + result.getResponseTime());
         });
 
         System.out.println("=================================================================");
