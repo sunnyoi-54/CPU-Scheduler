@@ -45,7 +45,7 @@ public class HRRN {
             totalTurnaroundTime += turnaroundTime;
             int responseTime = waitingTime;
 
-            resultList.add(new Result(selectedProcess.getProcessId(), burstTime, waitingTime, turnaroundTime, responseTime));
+            resultList.add(new Result(selectedProcess.getProcessId(), waitingTime, turnaroundTime, responseTime));
             selectedProcess.setCompleted(true); //완료됨!
             completedProcesses++;
         }

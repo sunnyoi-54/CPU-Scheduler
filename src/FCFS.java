@@ -26,7 +26,7 @@ public class FCFS {
             totalTurnaroundTime += turnaroundTime; //평균 구하기 위해
             int responseTime = waitingTime; //응답 시간은 대기 시간과 동일 (응답이 시작된 시간이기 때문에)
 
-            resultList.add(new Result(p.getProcessId(), burstTime, waitingTime, turnaroundTime, responseTime)); //결과 리스트에 구한 값 객체 넣기
+            resultList.add(new Result(p.getProcessId(), waitingTime, turnaroundTime, responseTime)); //결과 리스트에 구한 값 객체 넣기
         }
 
         double averageWaitingTime = (double)totalWaitingTime / jobList.size();

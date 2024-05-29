@@ -9,7 +9,7 @@ public class RoundRobin {
         int totalResponseTime = 0;
         Queue<Process> processQueue = new LinkedList<>();
 
-        // 도착 시간 기준으로 프로세스 리스트 정렬
+        // 도착 시간 기준으로 프로세스 정렬
         jobList.sort(Comparator.comparingInt(Process::getArriveTime));
 
         while (completedProcesses < jobList.size()) {
@@ -26,16 +26,23 @@ public class RoundRobin {
                 continue;
             }
 
-            // 큐에서 프로세스를 꺼내어 처리
             Process currentProcess = processQueue.poll();
 
-            if (currentProcess.getRemainingTime() == currentProcess.getBurstTime()) { // 첫 응답이 시작하는 시간이 응답 시간
+            if (currentProcess.getRemainingTime() == currentProcess.getBurstTime()) {
                 currentProcess.setResponseTime(currentTime - currentProcess.getArriveTime());
                 totalResponseTime += currentProcess.getResponseTime();
             }
+
+            // 프로세스를 처리
             int executeTime = Math.min(currentProcess.getRemainingTime(), timeQuantum);
             currentProcess.setRemainingTime(currentProcess.getRemainingTime() - executeTime);
             currentTime += executeTime;
+
+            for (Process p : jobList) {
+                if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() !=  currentProcess.getProcessId())){
+                    processQueue.add(p);
+                }
+            }
 
             // 프로세스가 완료된 경우
             if (currentProcess.getRemainingTime() == 0) {
@@ -43,10 +50,10 @@ public class RoundRobin {
                 int burstTime = currentProcess.getBurstTime();
                 int waitingTime = currentTime - arriveTime - burstTime;
                 totalWaitingTime += waitingTime;
-                int turnaroundTime = waitingTime + burstTime;
+                int turnaroundTime = currentTime - arriveTime; // 수정된 부분
                 totalTurnaroundTime += turnaroundTime;
 
-                resultList.add(new Result(currentProcess.getProcessId(), burstTime, waitingTime, turnaroundTime, currentProcess.getResponseTime()));
+                resultList.add(new Result(currentProcess.getProcessId(), waitingTime, turnaroundTime, currentProcess.getResponseTime()));
                 currentProcess.setCompleted(true);
                 completedProcesses++;
             } else {

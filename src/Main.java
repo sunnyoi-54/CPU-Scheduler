@@ -23,22 +23,20 @@ public class Main {
         List<Process> jobList4 = jobList();
         List<Result> resultList4 = new ArrayList<>();
         PriorityBasedRR pbr = new PriorityBasedRR();
-        pbr.run(jobList4, resultList4, 3); //timeQuantum이 늘어날 수록 성능 우수 해짐..
+        pbr.run(jobList4, resultList4, 2); //timeQuantum이 늘어날 수록 성능 우수 해짐..
 
         List<Process> jobList5 = jobList();
         List<Result> resultList5 = new ArrayList<>();
         RoundRobin rr = new RoundRobin();
         rr.run(jobList5, resultList5, 3);
-
     }
 
     private static List<Process> jobList() {
         List<Process> jobList = new ArrayList<>();
-        jobList.add(new Process(1, 8, 0));
-        jobList.add(new Process(2, 4, 2));
-        jobList.add(new Process(3, 1, 7));
-        jobList.add(new Process(4, 9, 4));
-        jobList.add(new Process(5, 5, 1));
+        jobList.add(new Process(1, 6, 0));
+        jobList.add(new Process(2, 3, 1));
+        jobList.add(new Process(3, 1, 2));
+        jobList.add(new Process(4, 4, 3));
         return jobList;
     }
 }

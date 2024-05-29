@@ -39,6 +39,12 @@ public class PriorityBasedRR { // HRRN + RR
             currentProcess.setRemainingTime(currentProcess.getRemainingTime() - executeTime);
             currentTime += executeTime;
 
+            for (Process p : jobList) {
+                if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() !=  currentProcess.getProcessId())){
+                    processQueue.add(p);
+                }
+            }
+
             // 프로세스가 완료된 경우
             if (currentProcess.getRemainingTime() == 0) {
                 int arriveTime = currentProcess.getArriveTime();
@@ -48,7 +54,7 @@ public class PriorityBasedRR { // HRRN + RR
                 int turnaroundTime = waitingTime + burstTime;
                 totalTurnaroundTime += turnaroundTime;
 
-                resultList.add(new Result(currentProcess.getProcessId(), burstTime, waitingTime, turnaroundTime, currentProcess.getResponseTime()));
+                resultList.add(new Result(currentProcess.getProcessId(), waitingTime, turnaroundTime, currentProcess.getResponseTime()));
                 currentProcess.setCompleted(true);
                 completedProcesses++;
             } else {

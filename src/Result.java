@@ -4,7 +4,7 @@ public class Result {
     private int turnaroundTime;
     private int responseTime;
 
-    public Result(int processID, int burstTime, int waitingTime, int turnaroundTime, int responseTime) {
+    public Result(int processID, int waitingTime, int turnaroundTime, int responseTime) {
         this.processID = processID;
         this.waitingTime = waitingTime;
         this.turnaroundTime = turnaroundTime;

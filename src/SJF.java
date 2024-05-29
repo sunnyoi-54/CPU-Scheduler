@@ -38,7 +38,7 @@ public class SJF {
             totalTurnaroundTime += turnaroundTime;
 
             // 결과 리스트에 추가
-            resultList.add(new Result(shortestJob.getProcessId(), shortestJob.getBurstTime(), waitingTime, turnaroundTime, responseTime));
+            resultList.add(new Result(shortestJob.getProcessId(), waitingTime, turnaroundTime, responseTime));
 
             // 프로세스 완료 표시
             shortestJob.setCompleted(true);
