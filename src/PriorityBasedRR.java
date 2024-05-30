@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class PriorityBasedRR { // HRRN + RR
-    public void run(List<Process> jobList, List<Result> resultList, int timeQuantum) {
+    public Results run(List<Process> jobList, List<Result> resultList, int timeQuantum) {
         int currentTime = 0;
         int totalWaitingTime = 0;
         int completedProcesses = 0;
@@ -45,6 +45,9 @@ public class PriorityBasedRR { // HRRN + RR
                 }
             }
 
+            //System.out.println("시간 : " + currentTime + " 프로세스 : " +currentProcess.getProcessId());
+
+
             // 프로세스가 완료된 경우
             if (currentProcess.getRemainingTime() == 0) {
                 int arriveTime = currentProcess.getArriveTime();
@@ -68,6 +71,7 @@ public class PriorityBasedRR { // HRRN + RR
         double averageResponseTime = (double) totalResponseTime / jobList.size();
 
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, averageResponseTime, resultList);
+        return new Results(averageWaitingTime, averageResponseTime, averageTurnaroundTime);
     }
 
     private Process selectHighestResponseRatioProcess(Queue<Process> processQueue, int currentTime) {

@@ -2,7 +2,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class SJF {
-    public void run(List<Process> jobList, List<Result> resultList) {
+    public Results run(List<Process> jobList, List<Result> resultList) {
         int currentTime = 0;
         int totalWaitingTime = 0;
         int totalTurnaroundTime = 0;
@@ -50,6 +50,7 @@ public class SJF {
         double averageWaitingTime = (double) totalWaitingTime / jobList.size();
         double averageTurnaroundTime = (double) totalTurnaroundTime / jobList.size();
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, resultList);
+        return new Results(averageWaitingTime, averageWaitingTime, averageTurnaroundTime);
     }
 
     private static void printResults(double averageWaitingTime, int cpuExecutionTime, double averageResponseTime, List<Result> resultList) {

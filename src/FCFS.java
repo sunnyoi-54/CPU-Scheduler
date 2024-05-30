@@ -4,7 +4,7 @@ public class FCFS {
     private List<Process> jobList; // 작업 큐
     private List<Result> resultList; // 결과 리스트
 
-    public List<Result> run(List<Process> jobList, List<Result> resultList){
+    public Results run(List<Process> jobList, List<Result> resultList){
         // 도착 시간 기준으로 정렬
         jobList.sort(Comparator.comparingInt(Process::getArriveTime));
 
@@ -33,7 +33,7 @@ public class FCFS {
         double averageTurnaroundTime = (double)totalTurnaroundTime / jobList.size();
 
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, resultList); //결과 출력
-        return resultList;
+        return new Results(averageWaitingTime, averageWaitingTime, averageTurnaroundTime);
     }
 
     private void printResults(double averageWaitingTime, int cpuExecutionTime, double averageTurnaroundTime, List<Result> resultList) {

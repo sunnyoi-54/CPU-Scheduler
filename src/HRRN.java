@@ -3,7 +3,7 @@ import java.util.List;
 
 
 public class HRRN {
-    public void run(List<Process> jobList, List<Result> resultList) {
+    public Results run(List<Process> jobList, List<Result> resultList) {
         int currentTime = 0;
         int totalWaitingTime = 0;
         int completedProcesses = 0;
@@ -54,6 +54,8 @@ public class HRRN {
         double averageTurnaroundTime = (double) totalTurnaroundTime / jobList.size();
 
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, resultList);
+
+        return new Results(averageWaitingTime, averageWaitingTime, averageTurnaroundTime);
     }
 
     private void printResults(double averageWaitingTime, int cpuExecutionTime, double averageTurnaroundTime, List<Result> resultList) {

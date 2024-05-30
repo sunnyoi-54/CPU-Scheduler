@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class RoundRobin {
-    public void run(List<Process> jobList, List<Result> resultList, int timeQuantum) {
+    public Results run(List<Process> jobList, List<Result> resultList, int timeQuantum) {
         int currentTime = 0;
         int totalWaitingTime = 0;
         int completedProcesses = 0;
@@ -38,6 +38,9 @@ public class RoundRobin {
             currentProcess.setRemainingTime(currentProcess.getRemainingTime() - executeTime);
             currentTime += executeTime;
 
+            //System.out.println("시간 : " + currentTime + " 프로세스 : " +currentProcess.getProcessId());
+
+
             for (Process p : jobList) {
                 if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() !=  currentProcess.getProcessId())){
                     processQueue.add(p);
@@ -67,6 +70,8 @@ public class RoundRobin {
         double averageResponseTime = (double) totalResponseTime / jobList.size();
 
         printResults(averageWaitingTime, currentTime, averageTurnaroundTime, averageResponseTime, resultList);
+
+        return new Results(averageWaitingTime, averageResponseTime, averageTurnaroundTime);
     }
 
 
