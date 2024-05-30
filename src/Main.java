@@ -26,13 +26,13 @@ public class Main {
 
         List<Process> jobList4 = jobList();
         List<Result> resultList4 = new ArrayList<>();
-        PriorityBasedRR pbr = new PriorityBasedRR();
-        results.add(pbr.run(jobList4, resultList4, 3)); //timeQuantum이 늘어날 수록 성능 우수 해짐..
+        RoundRobin rr = new RoundRobin();
+        results.add(rr.run(jobList4, resultList4, 3));
 
         List<Process> jobList5 = jobList();
         List<Result> resultList5 = new ArrayList<>();
-        RoundRobin rr = new RoundRobin();
-        results.add(rr.run(jobList5, resultList5, 3));
+        PriorityBasedRR pbr = new PriorityBasedRR();
+        results.add(pbr.run(jobList5, resultList5, 3)); //timeQuantum이 늘어날 수록 성능 우수 해짐..
 
         BarChart_AWT chart = new BarChart_AWT("CPU scheduler",
                 "data result" , results);
@@ -43,11 +43,16 @@ public class Main {
 
     private static List<Process> jobList() {
         List<Process> jobList = new ArrayList<>();
-        jobList.add(new Process(1, 10, 0));
-        jobList.add(new Process(2, 5, 2));
-        jobList.add(new Process(3, 8, 3));
-        jobList.add(new Process(4, 2, 4));
-        jobList.add(new Process(5, 6, 8));
+        jobList.add(new Process(1, 8, 0));
+        jobList.add(new Process(2, 6, 2));
+        jobList.add(new Process(3, 4, 4));
+        jobList.add(new Process(4, 3, 6));
+        jobList.add(new Process(5, 7, 8));
+        jobList.add(new Process(6, 5, 10));
+        jobList.add(new Process(7, 3, 12));
+        jobList.add(new Process(8, 4, 14));
+        jobList.add(new Process(9, 6, 16));
+        jobList.add(new Process(10, 1, 18));
 
         return jobList;
     }
