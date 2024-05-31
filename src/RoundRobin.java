@@ -26,42 +26,42 @@ public class RoundRobin {
                 continue;
             }
 
-            Process currentProcess = processQueue.poll();
+            Process selectedProcess = processQueue.poll();
 
-            if (currentProcess.getRemainingTime() == currentProcess.getBurstTime()) {
-                currentProcess.setResponseTime(currentTime - currentProcess.getArriveTime());
-                totalResponseTime += currentProcess.getResponseTime();
+            if (selectedProcess.getRemainingTime() == selectedProcess.getBurstTime()) {
+                selectedProcess.setResponseTime(currentTime - selectedProcess.getArriveTime());
+                totalResponseTime += selectedProcess.getResponseTime();
             }
 
             // 프로세스를 처리
-            int executeTime = Math.min(currentProcess.getRemainingTime(), timeQuantum);
-            currentProcess.setRemainingTime(currentProcess.getRemainingTime() - executeTime);
+            int executeTime = Math.min(selectedProcess.getRemainingTime(), timeQuantum);
+            selectedProcess.setRemainingTime(selectedProcess.getRemainingTime() - executeTime);
             currentTime += executeTime;
 
-            //System.out.println("시간 : " + currentTime + " 프로세스 : " +currentProcess.getProcessId());
+            //System.out.println("시간 : " + currentTime + " 프로세스 : " +selectedProcess.getProcessId());
 
 
             for (Process p : jobList) {
-                if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() !=  currentProcess.getProcessId())){
+                if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() !=  selectedProcess.getProcessId())){
                     processQueue.add(p);
                 }
             }
 
             // 프로세스가 완료된 경우
-            if (currentProcess.getRemainingTime() == 0) {
-                int arriveTime = currentProcess.getArriveTime();
-                int burstTime = currentProcess.getBurstTime();
+            if (selectedProcess.getRemainingTime() == 0) {
+                int arriveTime = selectedProcess.getArriveTime();
+                int burstTime = selectedProcess.getBurstTime();
                 int waitingTime = currentTime - arriveTime - burstTime;
                 totalWaitingTime += waitingTime;
                 int turnaroundTime = currentTime - arriveTime; // 수정된 부분
                 totalTurnaroundTime += turnaroundTime;
 
-                resultList.add(new Result(currentProcess.getProcessId(), waitingTime, turnaroundTime, currentProcess.getResponseTime()));
-                currentProcess.setCompleted(true);
+                resultList.add(new Result(selectedProcess.getProcessId(), waitingTime, turnaroundTime, selectedProcess.getResponseTime()));
+                selectedProcess.setCompleted(true);
                 completedProcesses++;
             } else {
                 // 프로세스가 완료되지 않은 경우 다시 큐에 추가
-                processQueue.add(currentProcess);
+                processQueue.add(selectedProcess);
             }
         }
 

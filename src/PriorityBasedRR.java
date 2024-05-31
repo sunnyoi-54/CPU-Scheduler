@@ -27,42 +27,39 @@ public class PriorityBasedRR { // HRRN + RR
             }
 
             // HRRN을 사용하여 가장 높은 응답 비율을 가진 프로세스를 선택
-            Process currentProcess = selectHighestResponseRatioProcess(processQueue, currentTime);
+            Process selectedProcess = selectHighestResponseRatioProcess(processQueue, currentTime);
 
-            if (currentProcess.getRemainingTime() == currentProcess.getBurstTime()) { // 첫 응답이 시작하는 시간이 응답 시간
-                currentProcess.setResponseTime(currentTime - currentProcess.getArriveTime());
-                totalResponseTime += currentProcess.getResponseTime();
+            if (selectedProcess.getRemainingTime() == selectedProcess.getBurstTime()) { // 첫 응답이 시작하는 시간이 응답 시간
+                selectedProcess.setResponseTime(currentTime - selectedProcess.getArriveTime());
+                totalResponseTime += selectedProcess.getResponseTime();
             }
 
             // 프로세스를 처리
-            int executeTime = Math.min(currentProcess.getRemainingTime(), timeQuantum);
-            currentProcess.setRemainingTime(currentProcess.getRemainingTime() - executeTime);
+            int executeTime = Math.min(selectedProcess.getRemainingTime(), timeQuantum);
+            selectedProcess.setRemainingTime(selectedProcess.getRemainingTime() - executeTime);
             currentTime += executeTime;
 
             for (Process p : jobList) {
-                if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() !=  currentProcess.getProcessId())){
+                if (p.getArriveTime() <= currentTime && !p.isCompleted() && !processQueue.contains(p) && (p.getProcessId() != selectedProcess.getProcessId())) {
                     processQueue.add(p);
                 }
             }
 
-            //System.out.println("시간 : " + currentTime + " 프로세스 : " +currentProcess.getProcessId());
-
-
             // 프로세스가 완료된 경우
-            if (currentProcess.getRemainingTime() == 0) {
-                int arriveTime = currentProcess.getArriveTime();
-                int burstTime = currentProcess.getBurstTime();
+            if (selectedProcess.getRemainingTime() == 0) {
+                int arriveTime = selectedProcess.getArriveTime();
+                int burstTime = selectedProcess.getBurstTime();
                 int waitingTime = currentTime - arriveTime - burstTime;
                 totalWaitingTime += waitingTime;
                 int turnaroundTime = waitingTime + burstTime;
                 totalTurnaroundTime += turnaroundTime;
 
-                resultList.add(new Result(currentProcess.getProcessId(), waitingTime, turnaroundTime, currentProcess.getResponseTime()));
-                currentProcess.setCompleted(true);
+                resultList.add(new Result(selectedProcess.getProcessId(), waitingTime, turnaroundTime, selectedProcess.getResponseTime()));
+                selectedProcess.setCompleted(true);
                 completedProcesses++;
             } else {
                 // 프로세스가 완료되지 않은 경우 다시 큐에 추가
-                processQueue.add(currentProcess);
+                processQueue.add(selectedProcess);
             }
         }
 

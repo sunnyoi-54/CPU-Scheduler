@@ -1,9 +1,6 @@
 import java.util.*;
 
 public class FCFS {
-    private List<Process> jobList; // 작업 큐
-    private List<Result> resultList; // 결과 리스트
-
     public Results run(List<Process> jobList, List<Result> resultList){
         // 도착 시간 기준으로 정렬
         jobList.sort(Comparator.comparingInt(Process::getArriveTime));
@@ -18,6 +15,7 @@ public class FCFS {
 
             // 현재 시간이 프로세스의 도착 시간보다 작은 경우, 도착할 때까지 기다림
             currentTime = Math.max(currentTime, arriveTime); //현재 시간, 도착 시간 둘 중 큰 값으로 현재 시간 변경
+
 
             int waitingTime = currentTime - arriveTime; // 대기 시간 계산 = 현재 시간 - 도착 시간
             totalWaitingTime += waitingTime; //전체 대기 시간 += 이 프로세스의 대기 시간 <- 평균 대기 시간을 구하기 위해

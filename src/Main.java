@@ -1,9 +1,9 @@
 import org.jfree.ui.RefineryUtilities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+//22211983 전선영, 22220218 권정균
 public class Main {
     public static void main(String[] args) {
 
@@ -27,12 +27,12 @@ public class Main {
         List<Process> jobList4 = jobList();
         List<Result> resultList4 = new ArrayList<>();
         RoundRobin rr = new RoundRobin();
-        results.add(rr.run(jobList4, resultList4, 3));
+        results.add(rr.run(jobList4, resultList4, 2));
 
         List<Process> jobList5 = jobList();
         List<Result> resultList5 = new ArrayList<>();
         PriorityBasedRR pbr = new PriorityBasedRR();
-        results.add(pbr.run(jobList5, resultList5, 3)); //timeQuantum이 늘어날 수록 성능 우수 해짐..
+        results.add(pbr.run(jobList5, resultList5, 2)); //timeQuantum이 늘어날 수록 성능 우수 해짐..
 
         BarChart_AWT chart = new BarChart_AWT("CPU scheduler",
                 "data result" , results);
